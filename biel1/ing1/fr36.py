@@ -25,21 +25,19 @@ def o_2(pass_):
 
 
 def o_3_():
-    while 1:
-        pass_ = input('Enter password: ')
+    pass_ = ''
 
-        if not all(map(lambda x: x < 0, reduce(
-            lambda tu, char: (tu[0] - char.isalpha(),
-                              tu[1] - char.isnumeric(),
-                              tu[2] -
-                              (not (char.isalpha() or char.isnumeric()))
-                              ), pass_, (2, 2, 0)))):
-            print(''.join(('Invalid password, must have more than 2 ',
-                           'alpha characters, 2 numeric characters ',
-                           'and 1 symbol')))
-        else:
-            print(f'{pass_} is a valid password')
-            break
+    while len(pass_ := input('Enter password: ')) < 1 or not all(map(lambda x: x < 0, reduce(
+        lambda tu, char: (tu[0] - char.isalpha(),
+                          tu[1] - char.isnumeric(),
+                          tu[2] -
+                          (not (char.isalpha() or char.isnumeric()))
+                          ), pass_, (2, 2, 0)))):
+        print(''.join(('Invalid password, must have more than 2 ',
+                       'alpha characters, 2 numeric characters ',
+                       'and 1 symbol')))
+
+    print(f'{pass_} is a valid password')
 
 
 def o_3():
