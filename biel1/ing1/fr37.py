@@ -50,11 +50,12 @@ def o_6():
 
 def o_7():
     spin = random.randint(0, 37)  # 37 = 00
+    reds = [32, 19, 21, 25, 34, 27, 36, 30, 23, 5, 16, 1, 14, 9, 18, 7, 12, 3]
 
     if 0 < spin < 37:
         for x in (
             spin,
-            'Rød' if spin & 1 else 'Sort',
+            'Rød' if spin in reds else 'Sort',
             'Oddetall' if spin & 1 else 'Partall',
             '1 - 18' if spin < 19 else '19 - 36'
         ):
