@@ -25,12 +25,16 @@ def print_factory():
     return _print_sub
 
 def question(func):
+    if getattr(func, 'print_sub', None) is not None:
+        print('Already has')
+        return func
+
+    func.print_sub = print_factory()
+
     @functools.wraps(func)
     def f(*args, **kwargs):
         print(f'{bcolors.OKCYAN} Oppgave {func.__name__.split("_")[1]} {bcolors.ENDC}')
         return func(*args, **kwargs)
-
-    func.print_sub = f.print_sub = print_factory()
 
     return f
 
