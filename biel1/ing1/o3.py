@@ -1,5 +1,7 @@
 
+import re
 import sys
+import json
 import functools
 
 class bcolors:
@@ -93,7 +95,7 @@ def o_6():
     def f(x):
         def _get_input(*args, **kwargs):
             inp = input(*args, **kwargs)
-            #print("\r", end="")
+            print("\033[1A[\033[2K", end="")
             #sys.stdout.flush()
 
             return inp
@@ -106,7 +108,7 @@ def o_6():
         }
 
     o_6.print_sub(f(1))
-    o_6.print_sub(functools.reduce(lambda x, y: {**x, **{y: f(y+1)}}, range(5), {}))
+    o_6.print_sub(re.sub(r'\n', '\n\t', json.dumps(functools.reduce(lambda x, y: {**x, **{y: f(y+1)}}, range(5), {}), indent=4)))
 
 if __name__ == '__main__':
     locs = locals().copy()
