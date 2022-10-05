@@ -1,4 +1,5 @@
 
+import time
 import functools
 import numpy as np
 
@@ -16,7 +17,7 @@ def newton(r, *_):
 def reduced():
     return round(functools.reduce(newton, range(10), 1), NUM_DEC)
 
-def AAAAAAAAAAAAAAAAAAH():
+def oneliner():
     return round(functools.reduce(
         lambda x, _: x - ((np.exp(x) + x - 3)/(np.exp(x) + 1)),
         range(10), 1),
@@ -30,4 +31,23 @@ def cached():
 
     return round(arr[-1], NUM_DEC)
 
-print(reduced(), cached(), AAAAAAAAAAAAAAAAAAH())
+def time_it(func):
+    arr = []
+    val = None
+
+    for _ in range(10000):
+        start = time.perf_counter_ns()
+        val = func()
+        arr.append(time.perf_counter_ns() - start)
+
+    return min(arr), sum(arr) / len(arr), max(arr), val
+
+def fmt_time(func):
+    def rounded(x):
+        return round(x, 5)
+
+    return func.__name__ + ' returned {3} - min: {0}ns, avg: {1}ns, max: {2}ns'.format(*map(rounded, time_it(func)))
+
+print(fmt_time(reduced))
+print(fmt_time(cached))
+print(fmt_time(oneliner))
