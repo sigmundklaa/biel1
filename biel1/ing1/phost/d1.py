@@ -31,9 +31,9 @@ class Direction(enum.Enum):
 
 
 class Stabilizer:
-    _sense: None
+    _sense: SenseHat
 
-    def __init__(self, sense: None):
+    def __init__(self, sense: SenseHat):
         self._sense = sense
 
     def _start(self, step: Step) -> int:
@@ -73,17 +73,17 @@ class Stabilizer:
             return {
                 (
                     offset_const,
-                    self._start(step_x) +
-                    ((level_invert + 1) * step_x) +
-                    (i * step_x)
+                    self._start(step_x)
+                    + ((level_invert + 1) * step_x)
+                    + (i * step_x)
                 ) for i in range(level)
             }
 
         return {
             (
-                self._start(step_y) +
-                ((level_invert + 1) * step_y) +
-                (i * step_y),
+                self._start(step_y)
+                + ((level_invert + 1) * step_y)
+                + (i * step_y),
                 offset_const
             ) for i in range(level)
         }
@@ -93,9 +93,10 @@ class Stabilizer:
             xconst = self.make_corner_part(level, True, step_x)
             yconst = self.make_corner_part(level, False, step_y)
 
-            return xconst | yconst | set(
-                {(list(xconst)[0][0],
-                    list(yconst)[0][1])})
+            return xconst | yconst | set({(
+                list(xconst)[0][0],
+                list(yconst)[0][1]
+            )})
 
         steps = {
             Direction.LT: (1, 1),
