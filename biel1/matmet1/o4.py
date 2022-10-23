@@ -19,10 +19,19 @@ def o_1():
     xvals = np.arange(-2, 2, 0.1)
 
     pyplot.plot(xvals, f(xvals))
+    pyplot.plot(xvals, tang(xvals))
     pyplot.show()
 
     print(f(1) + df(1) * 0.1)
 
+def o_2():
+    def f(x):
+        return x ** 2 * (np.sin(x) * np.cos(x) + 1)
+
+    xvals = np.arange(0, 10, 0.1)
+    pyplot.plot(xvals, f(xvals))
+    pyplot.show()
+
 if __name__ == '__main__':
-    o_1()
+    o_2()
 
