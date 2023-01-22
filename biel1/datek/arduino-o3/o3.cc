@@ -73,7 +73,8 @@ de_tick(void)
             return;
         }
         btn_state--;
-    case 1:
+    case 1: {
+
         if (!read) {
             btn_state--;
             break;
@@ -87,6 +88,7 @@ de_tick(void)
         }
 
         return;
+    }
     default:
         break;
     }
@@ -101,7 +103,8 @@ f_tick(void)
 
     uint8_t index = 0;
 
-    String tmp = Serial.readString().trim();
+    String tmp = Serial.readString();
+    tmp.trim();
 
     if (!tmp) {
         return;
@@ -136,7 +139,7 @@ setup(void)
     }
 
     for (uint8_t i = LED_1; i < LED_MAX_; i++) {
-        pinMode(i, output);
+        pinMode(i, OUTPUT);
     }
 
     Serial.begin(9600);
