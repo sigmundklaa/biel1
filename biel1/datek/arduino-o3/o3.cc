@@ -25,7 +25,7 @@ enum pinout {
 static void
 a_tick(void)
 {
-    digitalWrite(LED_1, !digitalRead(BTN_1));
+    digitalWrite(LED_1, digitalRead(BTN_1));
 }
 
 static void
