@@ -124,7 +124,7 @@ tick_(struct fsm_* fsm)
 
         break;
     case READ_BUTTON_:
-        if (digitalRead(fsm->led_pin)) {
+        if (!digitalRead(fsm->led_pin)) {
             transition_(fsm, READ_DEFAULT_);
             break;
         }
