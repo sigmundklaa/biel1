@@ -107,7 +107,7 @@ tick_(struct fsm_* fsm)
         }
 
         if (!--fsm->read_count) {
-            transition(
+            transition_(
                 fsm,
                 avg_16_(fsm->readbuf, 10) > READ_LIMIT_ ? BURST_5_ : BURST_1_
             );
@@ -141,7 +141,7 @@ tick_(struct fsm_* fsm)
             return;
         }
 
-        transition(fsm, READ_ELEVATED_);
+        transition_(fsm, READ_ELEVATED_);
         break;
     default:
         /* TODO: error */
