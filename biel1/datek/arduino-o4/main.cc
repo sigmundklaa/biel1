@@ -53,6 +53,14 @@ avg_16_(uint16_t* mem, size_t size)
 }
 
 static void
+init_(struct fsm_* fsm)
+{
+    pinMode(fsm->led_pin, OUTPUT);
+    pinMode(fsm->read_pin, INPUT);
+    pinMode(fsm->button_pin, INPUT);
+}
+
+static void
 transition_(struct fsm_* fsm, enum fsm_state new_state)
 {
     switch (new_state) {
@@ -146,6 +154,7 @@ tick_(struct fsm_* fsm)
 void
 setup(void)
 {
+    init_(&fsm__);
 }
 
 void
