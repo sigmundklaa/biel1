@@ -15,13 +15,21 @@ Oppgave 1d)
 */
 
 #define PIN_BLINK_ (32)
-#define BLINK_INTERVAL_MS_ (50)
+#define BLINK_INTERVAL_MS_ (500)
+
+#define PIN_R_ (27)
+#define PIN_G_ (26)
+#define PIN_B_ (25)
+#define LED_PWM_RESO_ (8)
+#define LED_PWM_FREQ_ (5000)
 
 #define PRINT_INTERVAL_MS_ (10000)
 
 #define PIN_POT_ (35)
 #define PIN_PHR_ (34)
 #define SENSOR_UPDATE_INTERVAL_MS_ (5000)
+
+static const uint8_t led_chan_ = 0;
 
 static inline double
 to_3v3(uint16_t val)
@@ -113,6 +121,40 @@ static class sensors__
     }
 } sensors_{PIN_POT_, PIN_PHR_};
 
+static class pwmled__
+{
+  protected:
+    uint8_t m_pins[3];
+    uint8_t m_chan_offset;
+    uint16_t m_values[3];
+
+  public:
+    inline pwmled__(uint8_t offset, uint8_t r, uint8_t g, uint8_t b)
+        : m_chan_offset(offset), m_pins{r, g, b}
+    {
+        for (uint8_t i = 0; i < 3; i++) {
+            ledcSetup(m_chan_offset + i, LED_PWM_FREQ_, LED_PWM_RESO_);
+            ledcAttachPin(m_pins[i], m_chan_offset + i);
+        }
+    }
+
+    inline void
+    set(uint16_t r, uint16_t g, uint16_t b)
+    {
+        m_values[0] = r;
+        m_values[1] = g;
+        m_values[2] = b;
+    }
+
+    inline void
+    write()
+    {
+        for (uint8_t i = 0; i < 3; i++) {
+            ledcWrite(m_chan_offset + i, m_values[0]);
+        }
+    }
+} pwmled_{0, PIN_R_, PIN_G_, PIN_B_};
+
 static WebServer server(80);
 
 static void
@@ -161,4 +203,7 @@ loop()
     sensors_.update();
     blinker_.blink();
     server.handleClient();
+
+    pwmled_.set(0, 4095, 2090);
+    pwmled_.write();
 }
